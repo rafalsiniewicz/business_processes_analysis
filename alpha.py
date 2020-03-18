@@ -2,7 +2,7 @@
 # coding: utf-8
 import itertools
 import copy
-from main import MyGraph
+from graph import MyGraph
 class Alpha():
     def __init__(self, log):
         self.log = set(log)
@@ -168,7 +168,7 @@ class Alpha():
                 ind.add(pair)
         return ind
 
-    def create_graph(self):
+    def create_graph(self, filename='graph'):
         # adding split gateways based on causality
         for event in self.cs:
             if len(self.cs[event]) > 1:
@@ -208,6 +208,6 @@ class Alpha():
         else: 
             self.G.edge(list(self.to)[0],"end")
 
-        self.G.render('simple_graphviz_graph')
-        self.G.view('simple_graphviz_graph')
+        self.G.render(filename)
+        self.G.view(filename)
         
