@@ -7,12 +7,12 @@ class Alpha():
     def __init__(self, log):
         self.log = set(log)
         self.tl = self.get_TL_set() # all tasks in the log
+        self.ti = self.get_TI_set() # tasks that appear at least once as first task of a case 
+        self.to = self.get_TO_set() # tasks that appear at least once as last task in a case
         self.ds = self.direct_succession()  # direct successors
         self.cs = self.causality(self.ds)   # causality 
         self.pr = self.parallel(self.ds)    # parralelism
         self.ind = self.choice(self.tl, self.cs, self.pr)
-        self.ti = self.get_TI_set() # tasks that appear at least once as first task of a case 
-        self.to = self.get_TO_set() # tasks that appear at least once as last task in a case
         self.xl = self.get_XL_set(self.tl, self.ind, self.cs) # potential task connections (a->b or a->(b#c) or (b#c)->d)
         self.yl = self.get_YL_set(self.xl, self.pr) # subset of XL 
         self.G = MyGraph()  
@@ -20,9 +20,9 @@ class Alpha():
     
     def __str__(self):
         alpha_sets = []
+        alpha_sets.append("TL set: {}".format(self.tl))
         alpha_sets.append("TI set: {}".format(self.ti))
         alpha_sets.append("TO set: {}".format(self.to))
-        alpha_sets.append("TL set: {}".format(self.tl))
         alpha_sets.append("XL set: {}".format(self.xl))
         alpha_sets.append("YL set: {}".format(self.yl))
         return '\n'.join(alpha_sets)
@@ -209,6 +209,6 @@ class Alpha():
         else: 
             self.G.edge(list(self.to)[0],"end")
 
-        self.G.render(filename)
-        self.G.view(filename)
+        self.G.render('../graphs/' + filename, view=True)
+        #self.G.view(filename)
         
