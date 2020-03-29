@@ -6,17 +6,17 @@ from graph import MyGraph
 class Alpha():
     def __init__(self, log):
         self.log = set(log)
-        self.tl = self.get_TL_set()
-        self.ds = self.direct_succession()
-        self.cs = self.causality(self.ds)
-        self.pr = self.parallel(self.ds)
+        self.tl = self.get_TL_set() # all tasks in the log
+        self.ds = self.direct_succession()  # direct successors
+        self.cs = self.causality(self.ds)   # causality 
+        self.pr = self.parallel(self.ds)    # parralelism
         self.ind = self.choice(self.tl, self.cs, self.pr)
-        self.ti = self.get_TI_set()
-        self.to = self.get_TO_set()
-        self.xl = self.get_XL_set(self.tl, self.ind, self.cs)
-        self.yl = self.get_YL_set(self.xl, self.pr)
-        self.G = MyGraph()
-        self.inv_cs = self.inv_causality(self.cs)
+        self.ti = self.get_TI_set() # tasks that appear at least once as first task of a case 
+        self.to = self.get_TO_set() # tasks that appear at least once as last task in a case
+        self.xl = self.get_XL_set(self.tl, self.ind, self.cs) # potential task connections (a->b or a->(b#c) or (b#c)->d)
+        self.yl = self.get_YL_set(self.xl, self.pr) # subset of XL 
+        self.G = MyGraph()  
+        self.inv_cs = self.inv_causality(self.cs)   # inverse causality
     
     def __str__(self):
         alpha_sets = []
@@ -141,6 +141,7 @@ class Alpha():
         return cs
 
     def inv_causality(self, cs):
+        # only for causality cases which has one succesor
         inv_cs = {}
         for key, values in cs.items():
             if len(values) == 1:
