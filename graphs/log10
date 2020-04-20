@@ -2,17 +2,17 @@ digraph ortho {
 	graph [nodesep=0.8 rankdir=LR splines=ortho]
 	node [shape=Mrecord]
 	edge [penwidth=2]
-	"XORs a->['d', 'c', 'b']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
-	a -> "XORs a->['d', 'c', 'b']"
-	"XORs a->['d', 'c', 'b']" -> d
-	"XORs a->['d', 'c', 'b']" -> c
-	"XORs a->['d', 'c', 'b']" -> b
-	"XORm ['c', 'b']->['d', 'c', 'b']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
-	"XORm ['c', 'b']->['d', 'c', 'b']" -> d
-	"XORm ['c', 'b']->['d', 'c', 'b']" -> c
-	"XORm ['c', 'b']->['d', 'c', 'b']" -> b
-	c -> "XORm ['c', 'b']->['d', 'c', 'b']"
-	b -> "XORm ['c', 'b']->['d', 'c', 'b']"
+	"XORs a->['c', 'd', 'b']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
+	a -> "XORs a->['c', 'd', 'b']"
+	"XORs a->['c', 'd', 'b']" -> c
+	"XORs a->['c', 'd', 'b']" -> d
+	"XORs a->['c', 'd', 'b']" -> b
+	"XORm ['b', 'c']->['d', 'b', 'c']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
+	"XORm ['b', 'c']->['d', 'b', 'c']" -> d
+	"XORm ['b', 'c']->['d', 'b', 'c']" -> b
+	"XORm ['b', 'c']->['d', 'b', 'c']" -> c
+	b -> "XORm ['b', 'c']->['d', 'b', 'c']"
+	c -> "XORm ['b', 'c']->['d', 'b', 'c']"
 	start [label="" shape=circle]
 	start -> a
 	end [label="" shape=circle]

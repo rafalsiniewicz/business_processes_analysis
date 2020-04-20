@@ -4,8 +4,9 @@ digraph ortho {
 	edge [penwidth=2]
 	a -> b
 	b -> c
+	c -> d
 	start [label="" shape=circle]
 	start -> a
 	end [label="" shape=circle]
-	c -> end
+	d -> end
 }

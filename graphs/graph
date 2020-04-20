@@ -2,13 +2,17 @@ digraph ortho {
 	graph [nodesep=0.8 rankdir=LR splines=ortho]
 	node [shape=Mrecord]
 	edge [penwidth=2]
-	a -> b
-	"XORs b->['c', 'b']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
-	b -> "XORs b->['c', 'b']"
-	"XORs b->['c', 'b']" -> c
-	"XORs b->['c', 'b']" -> b
+	"XORs b->['d', 'c', 'b']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
+	b -> "XORs b->['d', 'c', 'b']"
+	"XORs b->['d', 'c', 'b']" -> d
+	"XORs b->['d', 'c', 'b']" -> c
+	"XORs b->['d', 'c', 'b']" -> b
+	"XORm ['c', 'a']->b" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
+	"XORm ['c', 'a']->b" -> b
+	c -> "XORm ['c', 'a']->b"
+	a -> "XORm ['c', 'a']->b"
 	start [label="" shape=circle]
 	start -> a
 	end [label="" shape=circle]
-	c -> end
+	d -> end
 }

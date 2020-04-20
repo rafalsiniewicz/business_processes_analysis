@@ -41,11 +41,20 @@ class StartMenu:
 
 
     def run_alpha(self):
-        opened_file = deepcopy(self.opened_file)
+        log = []
+        log_row = []
+        for rows in self.text.get(1.0, END):
+            if rows == '\n':
+                if log_row != []:
+                    log.append(log_row)
+                log_row = []
+            if rows.isalpha():
+                log_row.append(rows)
+        #opened_file = deepcopy(self.opened_file)
         if self.radio_v.get() == 2:
-            self.alpha = Alpha(opened_file, splines='node')
+            self.alpha = Alpha(log, splines='node')
         else:
-            self.alpha = Alpha(opened_file)
+            self.alpha = Alpha(log)
         print(self.alpha)
         print("direct succesor:", self.alpha.ds)
         print("causality:",self.alpha.cs)
@@ -58,11 +67,22 @@ class StartMenu:
 
     
     def run_alpha_plus(self):
-        opened_file = deepcopy(self.opened_file)
+        log = []
+        log_row = []
+        for rows in self.text.get(1.0, END):
+            if rows == '\n':
+                if log_row != []:
+                    log.append(log_row)
+                log_row = []
+            if rows.isalpha():
+                log_row.append(rows)
+            
+        #print("tu:", log)
+        #opened_file = deepcopy(self.opened_file)
         if self.radio_v.get()  == 2:
-            self.alpha_plus = AlphaPlus(opened_file, splines='node')
+            self.alpha_plus = AlphaPlus(log, splines='node')
         else:
-            self.alpha_plus = AlphaPlus(opened_file)
+            self.alpha_plus = AlphaPlus(log)
 
         print(self.alpha_plus)
         print("causality: ", self.alpha_plus.cs)
@@ -81,11 +101,13 @@ class StartMenu:
         self.alpha_plus.run_alpha()
         self.alpha_plus.run_alpha_plus(self.graph_name)
         self.show_graph()
+
+
+        #print("tuuuuuutaj: ", self.text.get(1.0, END))
         
 
     def create_menubar(self):
         self.menubar.add_cascade(label="File", menu=self.filemenu)
-        self.menubar.add_cascade(label="Edit", menu=self.editmenu)
         self.menubar.add_cascade(label="Run", menu=self.runmenu)
         self.menubar.add_cascade(label="Help", menu=self.helpmenu)
         
@@ -96,15 +118,6 @@ class StartMenu:
         #self.filemenu.add_command(label="Close", command=self.donothing)
         self.filemenu.add_separator()
         self.filemenu.add_command(label="Exit", command=self.root.quit)
-
-    def create_edit_menu(self):
-        self.editmenu.add_command(label="Undo", command=self.donothing)
-        self.editmenu.add_separator()
-        self.editmenu.add_command(label="Cut", command=self.donothing)
-        self.editmenu.add_command(label="Copy", command=self.donothing)
-        self.editmenu.add_command(label="Paste", command=self.donothing)
-        self.editmenu.add_command(label="Delete", command=self.donothing)
-        self.editmenu.add_command(label="Select All", command=self.donothing)
     
     def create_run_menu(self):
         self.runmenu.add_command(label="Run alpha miner", command=self.run_alpha)
@@ -121,13 +134,17 @@ class StartMenu:
         generated graph as pdf file.""")
         
     def show_graph(self):
-        '''packs = self.root.pack_slaves()
+        packs = self.root.pack_slaves()
         for l in packs:
-            l.destroy()'''
-        new_window = Toplevel(self.root)
+            if str(l) != '.!label' and str(l) != '.!label3' and '.!text' not in str(l):
+                l.destroy()
+        '''new_window = Toplevel(self.root)
         new_window.title('BPMN graph')
         self.im = PhotoImage(file='../graphs/' + self.graph_name + '.png')
         self.label = Label(new_window, image=self.im)
+        self.label.pack()'''
+        self.im = PhotoImage(file='../graphs/' + self.graph_name + '.png')
+        self.label = Label(image=self.im)
         self.label.pack()
 
     def save_graph_as_pdf(self):
@@ -138,20 +155,22 @@ class StartMenu:
         print(self.radio_v.get())
 
     def add_radio_buttons(self):
-        Label(self.root, 
+        l1 = Label(self.root, 
                 text='Log:',
                 justify = LEFT,
                 padx = 20,
-                relief='solid').pack()
+                relief='solid')
+        l1.pack()
+        l1.place(x=0, y=100)
         self.radio_v = IntVar()
-        l = Label(self.root, 
+        l2 = Label(self.root, 
                 text='Choose graph type',
                 justify = LEFT,
                 padx = 20,
                 relief='solid',
                 anchor=SW)
-        l.pack()
-        l.place(x=0,y=0)
+        l2.pack()
+        l2.place(x=0,y=0)
         self.r1 = Radiobutton(self.root, 
                 text="Ortho",
                 padx = 20, 
@@ -174,19 +193,30 @@ class StartMenu:
     def show_log(self):
         packs = self.root.pack_slaves()
         for l in packs:
+            print(l)
             if str(l) != '.!label':
                 l.destroy()
+        log_height = 0
         log = ''
         for row in self.opened_file:
             for task in row:
                 log += ' ' + (task)
             log += '\n'
+            log_height += 1
 
-        Label(self.root, 
+        '''Label(self.root, 
                 text=log,
                 justify = LEFT,
                 padx = 20,
-                relief='solid').pack()
+                relief='solid').pack()'''
+        try:
+            self.text.delete(1.0, END)
+        except:
+            pass
+        self.text = Text(self.root, height=log_height+1, width=30)
+        self.text.pack()
+        self.text.place(x=0,y=125)
+        self.text.insert(END, log)
 
     def show_menu(self):
         self.root.config(menu=self.menubar)
