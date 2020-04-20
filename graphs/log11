@@ -1,0 +1,11 @@
+digraph ortho {
+	graph [nodesep=0.8 rankdir=LR splines=ortho]
+	node [shape=Mrecord]
+	edge [penwidth=2]
+	a -> b
+	b -> c
+	start [label="" shape=circle]
+	start -> a
+	end [label="" shape=circle]
+	c -> end
+}

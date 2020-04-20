@@ -1,0 +1,16 @@
+digraph ortho {
+	graph [nodesep=0.8 rankdir=LR splines=ortho]
+	node [shape=Mrecord]
+	edge [penwidth=2]
+	"ANDm ['a', 'b']->c" [label="+" fixedsize=true fontsize=40 height=.6 shape=diamond width=.6]
+	"ANDm ['a', 'b']->c" -> c
+	a -> "ANDm ['a', 'b']->c"
+	b -> "ANDm ['a', 'b']->c"
+	start [label="" shape=circle]
+	"ANDs start->{'a', 'b'}" [label="+" fixedsize=true fontsize=40 height=.6 shape=diamond width=.6]
+	start -> "ANDs start->{'a', 'b'}"
+	"ANDs start->{'a', 'b'}" -> a
+	"ANDs start->{'a', 'b'}" -> b
+	end [label="" shape=circle]
+	c -> end
+}

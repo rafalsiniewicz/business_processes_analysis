@@ -1,18 +1,18 @@
-digraph {
+digraph ortho {
 	graph [nodesep=0.8 rankdir=LR splines=ortho]
 	node [shape=Mrecord]
 	edge [penwidth=2]
+	"ANDs a->['b', 'e']" [label="+" fixedsize=true fontsize=40 height=.6 shape=diamond width=.6]
+	a -> "ANDs a->['b', 'e']"
+	"ANDs a->['b', 'e']" -> b
+	"ANDs a->['b', 'e']" -> e
 	"XORs b->['f', 'c']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
 	b -> "XORs b->['f', 'c']"
 	"XORs b->['f', 'c']" -> f
 	"XORs b->['f', 'c']" -> c
-	"ANDs a->['e', 'b']" [label="+" fixedsize=true fontsize=40 height=.6 shape=diamond width=.6]
-	a -> "ANDs a->['e', 'b']"
-	"ANDs a->['e', 'b']" -> e
-	"ANDs a->['e', 'b']" -> b
+	e -> f
 	c -> d
 	d -> b
-	e -> f
 	start [label="" shape=circle]
 	start -> a
 	end [label="" shape=circle]

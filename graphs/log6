@@ -1,0 +1,14 @@
+digraph ortho {
+	graph [nodesep=0.8 rankdir=LR splines=ortho]
+	node [shape=Mrecord]
+	edge [penwidth=2]
+	"XORs a->['b', 'c']" [label="×" fixedsize=true fontsize=35 height=.6 shape=diamond width=.6]
+	a -> "XORs a->['b', 'c']"
+	"XORs a->['b', 'c']" -> b
+	"XORs a->['b', 'c']" -> c
+	b -> c
+	start [label="" shape=circle]
+	start -> a
+	end [label="" shape=circle]
+	c -> end
+}

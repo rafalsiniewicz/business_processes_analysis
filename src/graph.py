@@ -3,10 +3,12 @@ import graphviz
 class MyGraph(graphviz.Digraph):
  
     def __init__(self, *args):
-        super(MyGraph, self).__init__(*args)
+        super(MyGraph, self).__init__(format='png', *args)
         self.graph_attr['rankdir'] = 'LR'
         self.node_attr['shape'] = 'Mrecord'
-        self.graph_attr['splines'] = 'ortho'
+        print(args[0])
+        self.graph_attr['splines'] = args[0] #'ortho'
+        #self.graph_attr['splines'] = 'node'
         self.graph_attr['nodesep'] = '0.8'
         self.edge_attr.update(penwidth='2')
  
@@ -52,4 +54,18 @@ class MyGraph(graphviz.Digraph):
         super(MyGraph, self).edge(gateway,target)
         for source in sources:
             super(MyGraph, self).edge(source, gateway)
+    
+    def add_xor_merge_split_gateway(self, sources, targets, *args):
+        gateway = 'XORm '+str(sources)+'->'+str(targets)
+        self.add_xor_gateway(gateway, *args)
+        print('targets', targets)
+        for target in targets:
+            print('target', target)
+            super(MyGraph, self).edge(gateway, target)
+        for source in sources:
+            super(MyGraph, self).edge(source, gateway)
+         
+
+    def add_self_loops(self, source, *args):
+        super(MyGraph, self).edge(source, source)
  
